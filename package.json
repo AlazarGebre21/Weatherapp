@@ -1,0 +1,16 @@
+{
+  "name": "weatherprojecti",
+  "version": "1.0.0",
+  "description": "This is a simple weather app that just calls 'open weather maps' api to show the current weather of the entered place",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "AlazarGebre21",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  }
+}
