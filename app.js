@@ -21,18 +21,37 @@ app.post('/',(req,res)=>{
         })
         response.on('end', () =>{
             var weatherData = JSON.parse(data)
-            var description = weatherData.weather[0].description
-            var icon = weatherData.weather[0].icon
-            var imageUrl = " https://openweathermap.org/img/wn/"+icon+"@2x.png"
-            var temp = weatherData.main.temp
-            res.write("<h1> Current Weather Condition For " + query + "</h1>")
-            res.write("<p>The weather is currently " + description + "</p>")
-            res.write("<p>The temprature is " + temp + " degree celcius </p>")
-            res.write("<img src="+imageUrl+">")
-            res.write('<br><a href="/">Search for another city</a>');
 
-            res.end() 
-            
+            if (weatherData.cod == 404){
+                res.write("<p>The place you are searching for is not found please try again with the correct name or spelling</p>");
+                res.write('<br><a href="/">Try againg</a>');
+                res.end()
+            }
+            else{
+
+                if (weatherData.weather && weatherData.weather.length > 0){
+                    var description = weatherData.weather[0].description
+                    var icon = weatherData.weather[0].icon
+                    var imageUrl = " https://openweathermap.org/img/wn/"+icon+"@2x.png"
+                    var temp = weatherData.main.temp
+
+                    res.write("<h1> Current Weather Condition For " + query + "</h1>")
+                    res.write("<p>The weather is currently " + description + "</p>")
+                    res.write("<p>The temprature is " + temp + " degree celcius </p>")
+                    res.write("<img   src="+imageUrl+">")
+                    res.write('<br><a href="/">Search for another city</a>');
+                    res.end() 
+                }
+                else{
+                    res.write("<p>The place you are searching for is not found please try again with the correct name or spelling</p>");
+                    res.write('<br><a href="/">Try againg</a>');
+                    res.end()
+                }
+            }
+                
+        }).on('error',()=>{
+            res.write("Error fetching data")
+            res.write('<br><a href="/">Search for another city(please check your spelling or if the city or country exists)</a>');
         })
     })
 })
